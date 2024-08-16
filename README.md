@@ -30,13 +30,13 @@ BFF API - This contains a communication with API Products and Payment API - It r
 git clone https://github.com/soaresdutra97/loja-virtual-bff.git
 ```
 
-Products API - This contains the CRUD of Products - It runs in port 8383
+Products API - This contains the CRUD of Products - It runs in port 8181
 
 ```bash
 git clone https://github.com/soaresdutra97/ApiProducts.git
 ```
 
-Payment API - This contains to BFF a logic that returns True or False for payment. - It runs in port 8282
+Payment API - This contains to BFF a logic that returns True or False for payment. - It runs in port 8383
 
 ```bash
 git clone https://github.com/soaresdutra97/ApiPayment.git
