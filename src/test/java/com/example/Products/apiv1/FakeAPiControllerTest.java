@@ -1,6 +1,6 @@
 package com.example.Products.apiv1;
 
-import com.example.Products.controllers.FakeApiController;
+import com.example.Products.controllers.ProdutosController;
 import com.example.Products.business.service.ProdutoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FakeAPiControllerTest {
 
     @InjectMocks
-    FakeApiController controller;
+    ProdutosController controller;
 
     @Mock
     FakeApiService fakeApiService;

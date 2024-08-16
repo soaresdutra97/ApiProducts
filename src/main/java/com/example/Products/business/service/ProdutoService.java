@@ -8,6 +8,8 @@ import com.example.Products.business.entities.ProdutoEntity;
 import com.example.Products.infrastructure.exceptions.BusinessException;
 import com.example.Products.infrastructure.repositories.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class ProdutoService {
     private final ProdutoRepository repository;
     private final ProdutoMapper produtoMapper;
     private final ProdutoUpdateMapper produtoUpdateMapper;
+
 
     public ProdutoEntity salvaProdutos(ProdutoEntity entity){
         try {
@@ -55,13 +58,14 @@ public class ProdutoService {
         repository.deleteById(id);
     }
 
+
     public List<ProdutoResponseDTO> buscaTodosProdutosCadastrados(){
         return produtoMapper.converteEntityParaDtoList(repository.findAll());
     }
 
-    public Boolean existsPorNome(String nome){
+    public Boolean existsPorId(String nome){
         try {
-            return repository.existsByNome(nome);
+            return repository.existsById(nome);
         } catch (Exception e){
             throw new BusinessException("Erro ao buscar produto por nome");
         }

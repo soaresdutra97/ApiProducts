@@ -36,13 +36,11 @@ spring:
           timeout: 3000
           writetimeout: 5000
 
-topico:
-  fake-api:
-    consumer:
-      nome: fake-api-consumer-products-v3
-      group-id: javanauta
-    producer:
-      nome: fake-api-producer-products-v3
+
+kafka:
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 
 fake-api:

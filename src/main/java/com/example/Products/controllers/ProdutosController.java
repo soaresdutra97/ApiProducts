@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,9 @@ import java.util.List;
 @RequestMapping("/produtos")
 @RequiredArgsConstructor
 @Tag(name="API Produtos")
-public class FakeApiController {
+public class ProdutosController {
+
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     private final ProdutoService produtoService;
 
@@ -47,10 +50,10 @@ public class FakeApiController {
             @ApiResponse(responseCode = "500", description = "Erro ao deletar os produtos"),
     })
     @DeleteMapping("/")
-    public ResponseEntity<Void> deletaProduto(@RequestParam ("id") String id){
+    public ResponseEntity<Void> deletaProduto(@RequestParam String id){
         produtoService.deletarProdutoPorId(id);
+        kafkaTemplate.send("atualizaCarrinhoeWishList", id); //Garante integridade referencial
         return ResponseEntity.accepted().build();
-
     }
 
     @Operation(summary = "Buscar Todo os Produtos", method ="GET")
@@ -69,7 +72,18 @@ public class FakeApiController {
             @ApiResponse(responseCode = "500", description = "Erro ao salvar os produtos"),
     })
     @GetMapping("/search")
-    public ResponseEntity<ProdutoResponseDTO> buscaProdutosPorNome(@RequestParam ("id") String id){
+    public ResponseEntity<ProdutoResponseDTO> buscaProdutosPorId(@RequestParam ("id") String id){
         return ResponseEntity.ok(produtoService.buscarProdutoPorId(id));
     }
+
+    @Operation(summary = "Produto existe boolean", method ="GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto salvo com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro ao salvar os produtos"),
+    })
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existsPorId(@RequestParam ("id") String id){
+        return ResponseEntity.ok(produtoService.existsPorId(id));
+    }
+
 }
