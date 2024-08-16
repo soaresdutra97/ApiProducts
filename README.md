@@ -3,7 +3,7 @@
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
-This API is a parte of an BFF (Back-End for Front-End) system made by me using Java Spring Boot and more.
+This API is a part of an BFF (Back-End for Front-End) system made by me using Java Spring Boot and more.
 
 Technologies: Spring Boot, JPA, Feign Client, PostgreSQL, Swagger, Spring Security with JWT, Kafka and JUnit + Mockito tests.
 
