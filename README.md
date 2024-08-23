@@ -7,6 +7,10 @@ This API is a part of an BFF (Back-End for Front-End) system made by me using Ja
 
 Technologies: Spring Boot, JPA, Feign Client, PostgreSQL, Swagger, Spring Security with JWT, Kafka and JUnit + Mockito tests.
 
+Hey! Now you can run this project using Docker-compose :D
+Just run docker-compose.yaml in your docker, or if you want you can run step by step
+following the installation guide.
+
 This BFF Contains: 
 A communication with 2 others APis [BFF API](https://github.com/soaresdutra97/loja-virtual-bff), [Payment API](https://github.com/soaresdutra97/ApiPayment) using Feign Client.
 This API has a Product CRUD.
@@ -21,6 +25,9 @@ This API has a Product CRUD.
 - [Database](#database)
 
 - ## Installation
+
+  You can Skip all instalation if you run the project by Docker-compose.
+  
 
 1. Clone all necessary repositories to run the project:
 
@@ -47,7 +54,7 @@ git clone https://github.com/soaresdutra97/ApiPayment.git
 
 3. Install [PostgresSQL](https://www.postgresql.org/) and create a database called postgres
 
-4.  Open the application-dev.yaml and change the spring: datasource: url: to jdbc:postgresql://YOUR_DATABASE_IP:5432/postgres
+4.  You have to go to the VM Options of your IDE and put: -Dspring.profiles.active=dev
 
 5. Run all Apis (BFF, Products and Payment)
 
@@ -119,7 +126,8 @@ Authentication
 ```markdown
 POST /auth/register - Register a new user into the App.
 
-Atention: The API will create a User with USER role by default, to access protected endpoints as an ADMIN user, you should create a new "Register" and go to the Database (With Dbeaver, for example) and change Role to 0 if you want a ADMIN user.
+Atention: The API will create a User with USER role by default, to access protected endpoints as an ADMIN user, you should create
+a new "Register" and go to the Database and change Role to 0 if you want an ADMIN user.
 
 POST /auth/login - Login into the App returns a JWT Token, and you have to put it in "Authorize" section
 to permit you make http requests. 
@@ -137,3 +145,4 @@ To access protected endpoints as an ADMIN user, you should create a new "Registe
 
 ## Database
 The project utilizes [PostgresSQL](https://www.postgresql.org/) as the database.
+
