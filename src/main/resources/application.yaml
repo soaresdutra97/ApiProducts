@@ -1,0 +1,79 @@
+#PERFIL COM CONFIGURAÇÕES PARA RODAR LOCAL:
+
+#NÃO ESQUECER DE ACRESCENTAR NO VM OPTIONS:
+  # -Dspring.profiles.active=dev
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        package-to-scan: com.example.FakeApiProducts.infrastructure.entities
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: true
+
+server:
+   port: 8181
+
+kafka:
+  bootstrap-servers: localhost:9092
+
+---
+
+#PERFIL COM CONFIGURAÇÕES PARA O DOCKER-COMPOSE:
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        package-to-scan: com.example.FakeApiProducts.infrastructure.entities
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: true
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+
+server:
+   port: 8080
+
+---
+
+#CONFIGURAÇÕES GERAIS DO KAFKA
+
+kafka:
+  producer:
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
