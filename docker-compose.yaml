@@ -1,0 +1,84 @@
+version: '3.8'
+
+networks:
+  my-network:
+    driver: bridge
+
+services:
+  postgres:
+    networks:
+     - my-network
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
+    networks:
+      - my-network         
+
+  kafka:
+    image: bitnami/kafka:latest
+    environment:
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092,INTERNAL://kafka:9093
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,INTERNAL://0.0.0.0:9093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT
+      - KAFKA_LISTENER_NAME=PLAINTEXT
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    networks:
+      - my-network    
+
+  fake-api-products:
+    networks: 
+      - my-network
+    image: marllondutra12/apideprodutos:1.8
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - postgres
+    ports:
+      - "8181:8080"
+
+  loja-virtual-bff:
+    image: marllondutra12/loja-bff:3.8
+    environment:
+      SECURITY_SECRET_KEY: my_secret
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      CLIENT1_PAGAMENTO_CLIENT: pagamento:8080
+      CLIENT2_PRODUTOS_CLIENT: fake-api-products:8080
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - postgres
+      - kafka
+    ports:
+      - "8484:8080"
+    networks:
+      - my-network
+
+  pagamento:
+    image: marllondutra12/api-pagamento:1.3
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8383:8080"
+    networks:
+      - my-network
