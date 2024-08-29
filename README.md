@@ -31,19 +31,19 @@ This API has a Product CRUD.
 
 1. Clone all necessary repositories to run the project:
 
-BFF API - This contains a communication with API Products and Payment API - It runs in port 8484
+BFF API - This contains a communication with API Products and Payment API - It runs on port 8484
 
 ```bash
 git clone https://github.com/soaresdutra97/loja-virtual-bff.git
 ```
 
-Products API - This contains the CRUD of Products - It runs in port 8181
+Products API - This contains the CRUD of Products - It runs on port 8181
 
 ```bash
 git clone https://github.com/soaresdutra97/ApiProducts.git
 ```
 
-Payment API - This contains to BFF a logic that returns True or False for payment. - It runs in port 8383
+Payment API - This contains to BFF a logic that returns True or False for payment. - It runs on port 8383
 
 ```bash
 git clone https://github.com/soaresdutra97/ApiPayment.git
