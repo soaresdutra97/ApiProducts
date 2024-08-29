@@ -56,11 +56,9 @@ git clone https://github.com/soaresdutra97/ApiPayment.git
 
 4.  You have to go to the VM Options of your IDE and put: -Dspring.profiles.active=dev
 
-5. Run all Apis (BFF, Products and Payment)
+5. Install [Kafka](https://kafka.apache.org/downloads) and [Zookeeper](https://zookeeper.apache.org/) and run both
 
-6. Install [Kafka](https://kafka.apache.org/downloads) and [Zookeeper](https://zookeeper.apache.org/) and run both
-
-7. Create a Kafka Cluster and a Topic called atualizaCarrinhoeWishList
+6. Run all Apis (BFF, Products and Payment)
 
 
 ## Usage
